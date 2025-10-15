@@ -99,9 +99,10 @@ public final class MessageHandler {
 
         TagResolver placeholders = builder.resolver(event.extraPlaceholders()).build();
 
-        RelationalAudience<@NotNull CommandSource> relationalAudience = RelationalAudience.from(event.sender(), event.recipient());
-        Component senderMessage = miniMessage.deserialize(messageSettings.messageSentMiniMessage(), relationalAudience, placeholders);
-        Component receiverMessage = miniMessage.deserialize(messageSettings.messageReceivedMiniMessage(), relationalAudience, placeholders);
+        Component senderMessage = miniMessage.deserialize(messageSettings.messageSentMiniMessage(),
+            RelationalAudience.from(event.sender(), event.recipient()), placeholders);
+        Component receiverMessage = miniMessage.deserialize(messageSettings.messageReceivedMiniMessage(),
+            RelationalAudience.from(event.recipient(), event.sender()), placeholders);
 
         event.sender().sendMessage(senderMessage);
         event.recipient().sendMessage(receiverMessage);
